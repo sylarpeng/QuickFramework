@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/click"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/click"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/change"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="change"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/main3"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="main3"
+        android:gravity="center"
+        />
+    <TextView
+        android:id="@+id/main4"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="main4"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        tools:text="tips"
+        android:gravity="center"
+        />
+
+</LinearLayout>

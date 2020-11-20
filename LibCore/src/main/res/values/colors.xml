@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="status_bar_default_color">#ffffff</color>
+    <color name="popmenu_bg_color">#eeeeee</color>
+    <color name="popmenu_text_color">#222222</color>
+</resources>

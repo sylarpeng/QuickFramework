@@ -1,0 +1,4 @@
+include ':LibCore'
+include ':LibNetwork'
+include ':app'
+rootProject.name = "QuickFramework"

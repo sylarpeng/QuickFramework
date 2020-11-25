@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View.OnClickListener
 import androidx.annotation.*
+import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuItemCompat
@@ -13,6 +15,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.LayoutParams.*
 import com.zz.libcore.R
 import com.zz.libcore.widget.BadgeActionProvider
+import java.lang.reflect.Field
 
 /**
  * 项目名称:Rosegal
@@ -69,6 +72,7 @@ open class ZToolbarActivity : ZBaseActivity(), Toolbar.OnMenuItemClickListener {
             toolbar?.inflateMenu(getMenuResId())
             toolbar?.setOnMenuItemClickListener(this)
             setMenuMoreIconColor(toolbar,getMenuMoreIconColor())
+            setMenuItemPadding(toolbar!!,100)
         }
 
     }
@@ -84,6 +88,39 @@ open class ZToolbarActivity : ZBaseActivity(), Toolbar.OnMenuItemClickListener {
         if(iconMore!=null){
             iconMore.setColorFilter(ContextCompat.getColor(toolbar.context, colorRes), PorterDuff.Mode.SRC_ATOP);
             toolbar.overflowIcon=iconMore
+        }
+    }
+
+    private fun setMenuItemPadding(toolbar: Toolbar,padding:Int){
+        try {
+            var menuViewFiled=getField(toolbar,"mMenuView")
+            val menuView = menuViewFiled?.get(toolbar)
+            if(menuView!=null && menuView is ActionMenuView){
+                if(menuView.childCount>0){
+                    for(index in 0 until menuView.childCount){
+                        val childAt = menuView.getChildAt(index)
+                        if(childAt is ActionMenuItemView){
+                            var itemField=getField(childAt,"mMinWidth")
+                            itemField?.set(childAt,80)
+                            childAt.invalidate()
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun getField(obj:Any,fieldName:String) : Field?{
+        return try {
+            var cls=obj.javaClass
+            var field=cls.getDeclaredField(fieldName);
+            field.isAccessible=true;
+            field
+        }catch (e: Exception){
+            e.printStackTrace()
+            null
         }
     }
 
@@ -115,6 +152,11 @@ open class ZToolbarActivity : ZBaseActivity(), Toolbar.OnMenuItemClickListener {
             val actionProvider:BadgeActionProvider = MenuItemCompat.getActionProvider(menuItem) as BadgeActionProvider
             actionProvider.setBadge(count)
         }
+    }
+
+    protected fun updateMenuIconVisible(@IdRes menuId:Int,visible:Boolean){
+        val menuItem = toolbar?.menu?.findItem(menuId)
+        menuItem?.isVisible=visible
     }
 
     open fun onFinish(){

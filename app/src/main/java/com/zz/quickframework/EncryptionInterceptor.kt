@@ -11,7 +11,7 @@ import java.lang.Exception
  */
 class EncryptionInterceptor:Interceptor  {
     val token="token"
-    val encryKey="lJoxSwx8MFxE3dKK1"
+    val encryKey="lJoxSwx8MFxE3dKK"
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
         if(isMessageHost(request.url().host())){

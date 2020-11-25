@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.zz.libcore.ui.ZToolbarActivity
-import com.zz.libcore.widget.BadgeActionProvider
 import com.zz.myapplication1.R
 
 class MainActivity3 : ZToolbarActivity() {
@@ -29,6 +28,8 @@ class MainActivity3 : ZToolbarActivity() {
             Toast.makeText(this,"cat..",Toast.LENGTH_LONG).show()
         })
         updateMenuIconBadge(R.id.cart,3)
+        updateMenuIconVisible(R.id.cat,true)
+        updateMenuIconVisible(R.id.more,true)
     }
 
 

@@ -21,7 +21,7 @@ class Test2ViewModel : BaseViewModel() {
 
     fun requestData(context:FragmentActivity){
         launchUI(context) {
-//            var result= messageRespository.getMsgDatas(2000)
+            var result= messageRespository.getMsgDatas(2000)
 //            var result2= messageRespository.getMsgDatas2(2000)
 //            messageResult.postValue(result)
             var token=async {
@@ -33,7 +33,7 @@ class Test2ViewModel : BaseViewModel() {
             Log.d("dd","after...")
             var ss=token.await()+user.await()
             Log.d("dd","finished...")
-            messageResult.postValue(null)
+            messageResult.postValue(result)
         }
     }
 

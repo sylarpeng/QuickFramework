@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap
  * 类描述：Retrofit 管理类
  */
 class RetrofitClient private constructor(){
+    private val servicesMap: ConcurrentHashMap<String, Any> = ConcurrentHashMap()
     private val retrofitMap:ConcurrentHashMap<String,Retrofit> = ConcurrentHashMap()
     private var host:String?=null
     private var okhttpClient: OkHttpClient?=null
@@ -54,10 +55,17 @@ class RetrofitClient private constructor(){
     }
 
     fun <T> createApiService(service:Class<T>): T {
-        okhttpClient=if(okhttpClient==null) OkHttpClient.Builder().build() else okhttpClient
-        converterFactory=if(converterFactory==null) CustomGsonConverterFactory.create() else converterFactory;
-        callFactory=if(callFactory==null) CoroutineCallAdapterFactory() else callFactory;
-        return createRetrofit(host!!,okhttpClient!!,converterFactory!!,callFactory!!).create(service)
+        return if(servicesMap.containsKey(host)){
+            servicesMap[host] as T
+        }else{
+            okhttpClient=if(okhttpClient==null) OkHttpClient.Builder().build() else okhttpClient
+            converterFactory=if(converterFactory==null) CustomGsonConverterFactory.create() else converterFactory;
+            callFactory=if(callFactory==null) CoroutineCallAdapterFactory() else callFactory;
+            var service= createRetrofit(host!!,okhttpClient!!,converterFactory!!,callFactory!!).create(service)
+            servicesMap[host!!]=service as Any
+            service
+        }
+
     }
 
     private fun createRetrofit(host:String,okHttpClient:OkHttpClient,factory: Converter.Factory,callFactory:CallAdapter.Factory): Retrofit {

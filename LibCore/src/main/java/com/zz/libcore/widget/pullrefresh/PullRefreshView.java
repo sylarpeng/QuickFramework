@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.transition.TransitionManager;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.zz.libcore.R;
 
 /**
@@ -62,6 +63,12 @@ public class PullRefreshView extends ConstraintLayout {
      */
     private int refreshCompletedDelayTime=1000;
 
+    /**
+     * 包含appBarLayout时通过 AppBarLayout的verticalOffset是否在滑动到顶部
+     */
+    private AppBarLayout appBarLayout;
+    private int appBarVerticalOffset;
+
     public PullRefreshView(@NonNull Context context) {
         this(context,null);
     }
@@ -105,7 +112,38 @@ public class PullRefreshView extends ConstraintLayout {
                 initRefreshView();
                 addContentView(childAt,layoutParams);
             }
+            appBarLayout=checkAppbarLayout(childAt);
+            if(appBarLayout!=null){
+                appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                    @Override
+                    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                        appBarVerticalOffset=verticalOffset;
+                    }
+                });
+            }
         }
+    }
+
+    private AppBarLayout checkAppbarLayout(View rootView){
+        AppBarLayout appBar=null;
+        if(rootView==null){
+            return null;
+        }
+        if(rootView instanceof AppBarLayout){
+            appBar= (AppBarLayout) rootView;
+        }else if(rootView instanceof ViewGroup){
+            int childCount = ((ViewGroup) rootView).getChildCount();
+            if(childCount>0){
+                for(int i=0;i<childCount;i++){
+                    appBar=checkAppbarLayout(((ViewGroup) rootView).getChildAt(i));
+                    if(appBar!=null){
+                        break;
+                    }
+                }
+            }
+        }
+        return appBar;
+
     }
 
     private void addContentView(View contentView,ViewGroup.LayoutParams layoutParams) {
@@ -126,23 +164,24 @@ public class PullRefreshView extends ConstraintLayout {
     float x,y;
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if(refreshState!=STATE_NONE){
+        if(refreshState==STATE_NONE || isRefreshing()){
+            switch (ev.getAction()){
+                case MotionEvent.ACTION_DOWN:
+                    x=ev.getX();
+                    y=ev.getY();
+                    return false;
+                case MotionEvent.ACTION_MOVE:
+                    if(ev.getY()>y && (Math.abs(ev.getX()-x)<Math.abs(ev.getY()-y)) && isTop()){
+                        return true;
+                    }
+                case MotionEvent.ACTION_UP:
+                    break;
+            }
+            return false;
+        }else{
             return super.onInterceptTouchEvent(ev);
         }
-        switch (ev.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                x=ev.getX();
-                y=ev.getY();
-                return false;
-            case MotionEvent.ACTION_MOVE:
-                if(ev.getY()>y && (Math.abs(ev.getX()-x)<Math.abs(ev.getY()-y)) && isTop()){
-                    return true;
-                }
 
-            case MotionEvent.ACTION_UP:
-                break;
-        }
-        return false;
     }
 
     /**
@@ -153,7 +192,12 @@ public class PullRefreshView extends ConstraintLayout {
         if(contentView==null){
             return false;
         }
-        return !contentView.canScrollVertically(-1);
+        if(appBarLayout!=null){
+            return appBarVerticalOffset==0;
+        }else{
+            return !contentView.canScrollVertically(-1);
+        }
+
     }
 
     @Override
@@ -163,14 +207,23 @@ public class PullRefreshView extends ConstraintLayout {
                 break;
             case MotionEvent.ACTION_MOVE:
                 int distance= (int) (ev.getY()-this.y);
-                updateHeaderView(distance/speed);
+                if(isRefreshing()){
+                    updateHeaderView(maxHeaderHeight+(distance/speed));
+                }else{
+                    updateHeaderView(distance/speed);
+                    onCallBack(STATE_PULL_DOWN);
+                }
+
                 return true;
             case MotionEvent.ACTION_UP:
                 resetHeader();
                 break;
         }
         return super.onTouchEvent(ev);
+    }
 
+    private boolean isRefreshing(){
+        return refreshState==STATE_REFRESHING;
     }
 
     private void updateHeaderView(int moveY){
@@ -179,15 +232,16 @@ public class PullRefreshView extends ConstraintLayout {
             showheaderHeight=0;
         }
         constraintSetHeader(false);
-        onCallBack(STATE_PULL_DOWN);
-
     }
 
     private void resetHeader(){
         if(showheaderHeight>=maxHeaderHeight){
             //下拉刷新
             showheaderHeight=maxHeaderHeight;
-            onRefresh();
+            if(!isRefreshing()){
+                onRefresh();
+            }
+
         }else{
             //还原
             showheaderHeight=0;

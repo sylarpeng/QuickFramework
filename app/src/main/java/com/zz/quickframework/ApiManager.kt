@@ -3,6 +3,10 @@ package com.zz.quickframework
 import com.zz.libnetwork.gson.CustomGsonConverterFactory
 import com.zz.libnetwork.net.OkhttpManager
 import com.zz.libnetwork.net.RetrofitClient
+import okhttp3.OkHttpClient
+import retrofit2.Converter
+import retrofit2.Retrofit
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * 项目名称:Rosegal
@@ -12,6 +16,7 @@ import com.zz.libnetwork.net.RetrofitClient
  */
 class ApiManager {
     companion object{
+        val servicesMap: ConcurrentHashMap<String, Any> = ConcurrentHashMap()
         var host="https://jsonplaceholder.typicode.com/";
         var msgHost="http://www.uos.com.develop.php7.egomsl.com"
 
@@ -39,5 +44,7 @@ class ApiManager {
                 .converterFactory(CustomGsonConverterFactory.create())
                 .createApiService(MessageApi::class.java)
         }
+
+
     }
 }

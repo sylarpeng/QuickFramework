@@ -1,10 +1,13 @@
 package com.zz.quickframework
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.AppBarLayout
 import com.zz.libcore.widget.pullrefresh.PullRefreshView
 import com.zz.myapplication1.R
 
@@ -43,11 +46,15 @@ class Fragment3 : RgRefreshFragment() {
     }
 
     fun getLayoutManager(): RecyclerView.LayoutManager {
-        return LinearLayoutManager(mContext)
+        return GridLayoutManager(mContext,2)
     }
 
     override fun onRefresh() {
-        recyclerView!!.postDelayed({ stopRefresh() }, 2000)
+        Log.d("dd","reuqest_start")
+        recyclerView!!.postDelayed({
+            Log.d("dd","reuqest_end")
+            stopRefresh()
+        }, 3000)
     }
 
     inner class MyAdapter : RecyclerView.Adapter<MyHolder>() {

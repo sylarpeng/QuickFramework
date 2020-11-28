@@ -12,7 +12,7 @@ import com.zz.myapplication1.R
  * 项目名称:Rosegal
  * 创建人：Created by  pzj
  * 创建时间:2020/11/28 10:31
- * 类描述：
+ * 类描述：下拉刷新/上拉加载更多控制器
  */
 class RefreshController() {
     var refreshCallBack:RefreshCallBack?=null
@@ -36,14 +36,14 @@ class RefreshController() {
         return object :
             RefreshStateChangeListener {
             override fun onPullDown(view: View, dy: Int, totalDy: Int) {
-                view.findViewById<TextView>(R.id.tv_name).text="pull_down+${dy}"
+                view.findViewById<TextView>(R.id.tv_name).text="松开刷新"
             }
             override fun onRefresh(view: View) {
-                view.findViewById<TextView>(R.id.tv_name).text="refreshing....."
+                view.findViewById<TextView>(R.id.tv_name).text="刷新中..."
                 refreshCallBack?.onRefresh()
             }
             override fun onRefreshComplete(view: View) {
-                view.findViewById<TextView>(R.id.tv_name).text="refresh_complete....."
+                view.findViewById<TextView>(R.id.tv_name).text="刷新完成"
             }
             override fun onRefreshNone() {}
         }

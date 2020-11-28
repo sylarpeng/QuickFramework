@@ -7,10 +7,47 @@
     android:layout_height="match_parent"
     android:id="@+id/refresh_view"
     >
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="title1"
+                android:gravity="center"
+                android:background="#9900ff00"
+                app:layout_scrollFlags="scroll|enterAlways"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="title"
+                android:gravity="center"
+                android:background="#330000ff"
+                >
+
+            </TextView>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 
 
 </com.zz.libcore.widget.pullrefresh.PullRefreshView>

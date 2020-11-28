@@ -72,7 +72,6 @@ open class ZToolbarActivity : ZBaseActivity(), Toolbar.OnMenuItemClickListener {
             toolbar?.inflateMenu(getMenuResId())
             toolbar?.setOnMenuItemClickListener(this)
             setMenuMoreIconColor(toolbar,getMenuMoreIconColor())
-            setMenuItemPadding(toolbar!!,100)
         }
 
     }
@@ -91,26 +90,7 @@ open class ZToolbarActivity : ZBaseActivity(), Toolbar.OnMenuItemClickListener {
         }
     }
 
-    private fun setMenuItemPadding(toolbar: Toolbar,padding:Int){
-        try {
-            var menuViewFiled=getField(toolbar,"mMenuView")
-            val menuView = menuViewFiled?.get(toolbar)
-            if(menuView!=null && menuView is ActionMenuView){
-                if(menuView.childCount>0){
-                    for(index in 0 until menuView.childCount){
-                        val childAt = menuView.getChildAt(index)
-                        if(childAt is ActionMenuItemView){
-                            var itemField=getField(childAt,"mMinWidth")
-                            itemField?.set(childAt,80)
-                            childAt.invalidate()
-                        }
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+
 
     private fun getField(obj:Any,fieldName:String) : Field?{
         return try {

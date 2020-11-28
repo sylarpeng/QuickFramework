@@ -23,11 +23,11 @@ open class ProgressDialogFragment : DialogFragment() {
         return inflater.inflate(getLoadingLayoutResId(), container, false);
     }
 
-    protected fun getLoadingLayoutResId():Int{
+    open fun getLoadingLayoutResId():Int{
         return R.layout.fragment_loading_dialog
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        val dialog = getDialog()
+        val dialog = dialog
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE);
         super.onActivityCreated(savedInstanceState);
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

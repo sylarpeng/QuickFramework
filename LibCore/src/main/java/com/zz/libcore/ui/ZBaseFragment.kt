@@ -18,7 +18,7 @@ import com.zz.libcore.R
  */
 open class ZBaseFragment : Fragment(){
     var mContext:FragmentActivity?=null
-    var multiStatusView:MultiStatusView?=null
+    private var multiStatusView:MultiStatusView?=null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

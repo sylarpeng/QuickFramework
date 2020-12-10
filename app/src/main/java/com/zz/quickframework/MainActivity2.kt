@@ -68,6 +68,11 @@ class MainActivity2 : AppCompatActivity() {
 
             startActivity(Intent(this,MainActivity4::class.java))
         })
+
+        findViewById<TextView>(R.id.main5).setOnClickListener(View.OnClickListener {
+
+            startActivity(Intent(this,MainActivity5::class.java))
+        })
     }
 
 

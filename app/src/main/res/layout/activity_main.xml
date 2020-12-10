@@ -26,22 +26,41 @@
         android:gravity="center"
         android:rotation="-10"
         />
+
+    <TextView
+        android:id="@+id/tv_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="hello"
+        android:textSize="54sp"
+        android:textColor="#00ff00"
+        app:layout_constraintTop_toBottomOf="@id/tv_cancel"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:drawableLeft="@mipmap/icon_discount_red"
+        android:drawableRight="@mipmap/ic_common_help_gray"
+        android:background="#66ff0000"
+        />
     <TextView
         android:id="@+id/tv_tips"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_cancel"
+        app:layout_constraintTop_toBottomOf="@id/tv_3"
         app:layout_constraintBottom_toBottomOf="parent"
         android:gravity="center"
         android:text="tips"
         android:textSize="18sp"
         android:textColor="#222222"
+
         />
     <TextView
         android:id="@+id/tv_tips2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_cancel"
+        app:layout_constraintTop_toBottomOf="@id/tv_3"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:gravity="center_vertical"
         android:text="tips2222"

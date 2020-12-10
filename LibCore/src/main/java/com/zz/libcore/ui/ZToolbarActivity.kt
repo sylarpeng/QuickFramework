@@ -160,7 +160,7 @@ open class ZToolbarActivity : ZBaseActivity(), Toolbar.OnMenuItemClickListener {
     /**
      * 标题
      */
-    open fun getToolbarTitle():String=""
+    open fun getToolbarTitle():String="Title"
 
     /**
      * 是否显示阴影

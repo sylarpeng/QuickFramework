@@ -28,16 +28,13 @@ import com.zz.myapplication1.R
  * 类描述：
  */
 class Fragment4 : RgRefreshFragment() {
-    var refreshView: PullRefreshView?=null
+    var sv: View?=null
     override fun getLayoutResId(): Int {
         return R.layout.activity_main4
     }
 
-    override fun getPullRefreshView(): PullRefreshView? {
-        return refreshView
-    }
     override fun initView(view: View) {
-        refreshView=view.findViewById(R.id.refresh_view)
+        sv=view.findViewById(R.id.sv)
         showLoadingView()
 
         var empty=view.findViewById<TextView>(R.id.tv_empty)
@@ -55,7 +52,7 @@ class Fragment4 : RgRefreshFragment() {
     }
 
     override fun onRefresh() {
-        refreshView?.postDelayed(Runnable {
+        sv?.postDelayed(Runnable {
             stopRefresh()
         },2000)
     }

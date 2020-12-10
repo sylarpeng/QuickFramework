@@ -5,10 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.AppBarLayout
-import com.zz.libcore.widget.pullrefresh.PullRefreshView
 import com.zz.myapplication1.R
 
 /**
@@ -22,16 +19,9 @@ class Fragment3 : RgRefreshFragment() {
     override fun getLayoutResId(): Int {
         return R.layout.fragment_base_refresh_list;
     }
-
-    var refreshView: PullRefreshView?=null
     var recyclerView: RecyclerView?=null
 
-    override fun getPullRefreshView(): PullRefreshView? {
-        return refreshView
-    }
-
     override fun initView(view: View) {
-        refreshView=view.findViewById(R.id.refresh_view)
         recyclerView=view.findViewById(R.id.rv)
         initRv()
     }

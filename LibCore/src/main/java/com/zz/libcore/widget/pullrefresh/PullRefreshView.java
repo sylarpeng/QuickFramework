@@ -2,15 +2,18 @@ package com.zz.libcore.widget.pullrefresh;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.transition.TransitionManager;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -20,7 +23,7 @@ import com.zz.libcore.R;
  * 项目名称:Rosegal
  * 创建人：Created by  pzj
  * 创建时间:2020/11/25 15:03
- * 类描述：
+ * 类描述：下拉刷新view
  */
 public class PullRefreshView extends ConstraintLayout {
     /**
@@ -39,6 +42,7 @@ public class PullRefreshView extends ConstraintLayout {
      * 加载完成
      */
     public static final int STATE_COMPLETE=2;
+    private static final String TAG = "PullRefreshView";
     protected Context context;
     private ConstraintLayout cslRoot;
     private FrameLayout flContentView;
@@ -69,6 +73,12 @@ public class PullRefreshView extends ConstraintLayout {
     private AppBarLayout appBarLayout;
     private int appBarVerticalOffset;
 
+    /**
+     * 是否使用原生SwipeRefreshLayout下拉组件
+     */
+    private boolean swipeRefreshEnable;
+    private SwipeRefreshLayout mSwipeLayout;
+
     public PullRefreshView(@NonNull Context context) {
         this(context,null);
     }
@@ -78,15 +88,39 @@ public class PullRefreshView extends ConstraintLayout {
         init(context);
     }
 
-    public void setRefreshCallBack(RefreshStateChangeListener refreshCallBack) {
-        this.refreshCallBack = refreshCallBack;
-    }
-
     private void init(Context context) {
         this.context=context;
         maxHeaderHeight= context.getResources().getDimensionPixelSize(R.dimen.refresh_header_max_height);
     }
-    private void initRefreshView(){
+
+    public PullRefreshView setHeaderView(View headerView){
+        this.headerView=headerView;
+        return this;
+    }
+    public PullRefreshView setContentView(View contentView){
+        this.contentView=contentView;
+        return this;
+    }
+    public PullRefreshView setRefreshCallBack(RefreshStateChangeListener refreshCallBack) {
+        this.refreshCallBack = refreshCallBack;
+        return this;
+    }
+
+    public PullRefreshView setSwipeRefreshEnable(boolean swipeRefreshEnable,@ColorInt int... colors) {
+        this.swipeRefreshEnable = swipeRefreshEnable;
+        if(swipeRefreshEnable){
+            mSwipeLayout=new SwipeRefreshLayout(context);
+            mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    PullRefreshView.this.onRefresh();
+                }
+            });
+        }
+        return this;
+    }
+
+    public void create(){
         this.removeAllViews();
         View.inflate(context, R.layout.refresh_rv,this);
         cslRoot=findViewById(R.id.csl_root);
@@ -95,68 +129,58 @@ public class PullRefreshView extends ConstraintLayout {
         ViewGroup.LayoutParams layoutParams = flHeaderView.getLayoutParams();
         layoutParams.height=maxHeaderHeight;
         flHeaderView.setLayoutParams(layoutParams);
+        if(!swipeRefreshEnable){
+            addHeaderView(headerView);
+        }
+        addContentView(contentView);
     }
 
 
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        if (getChildCount() > 1) {
-            throw new IllegalStateException("RefreshView can host only one direct child");
+    /**
+     * 设置下拉刷新内容视图
+     * @param contentView
+     */
+    private void addContentView(View contentView){
+        ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
+        if(contentView.getParent()!=null && contentView.getParent() instanceof ViewGroup){
+            ((ViewGroup)contentView.getParent()).removeView(contentView);
         }
-        if(getChildCount()==1){
-            View childAt = getChildAt(0);
-            ViewGroup.LayoutParams layoutParams = childAt.getLayoutParams();
-            if(childAt.getParent()!=null && childAt.getParent() instanceof ViewGroup){
-                ((ViewGroup)childAt.getParent()).removeView(childAt);
-                initRefreshView();
-                addContentView(childAt,layoutParams);
-            }
-            appBarLayout=checkAppbarLayout(childAt);
-            if(appBarLayout!=null){
-                appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-                    @Override
-                    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                        appBarVerticalOffset=verticalOffset;
-                    }
-                });
-            }
-        }
-    }
-
-    private AppBarLayout checkAppbarLayout(View rootView){
-        AppBarLayout appBar=null;
-        if(rootView==null){
-            return null;
-        }
-        if(rootView instanceof AppBarLayout){
-            appBar= (AppBarLayout) rootView;
-        }else if(rootView instanceof ViewGroup){
-            int childCount = ((ViewGroup) rootView).getChildCount();
-            if(childCount>0){
-                for(int i=0;i<childCount;i++){
-                    appBar=checkAppbarLayout(((ViewGroup) rootView).getChildAt(i));
-                    if(appBar!=null){
-                        break;
-                    }
+        addContentView(contentView,layoutParams);
+        appBarLayout=checkAppbarLayout(contentView);
+        if(appBarLayout!=null){
+            appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                @Override
+                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                    appBarVerticalOffset=verticalOffset;
                 }
-            }
+            });
         }
-        return appBar;
-
     }
-
     private void addContentView(View contentView,ViewGroup.LayoutParams layoutParams) {
         this.contentView=contentView;
         if(contentView!=null){
             this.flContentView.removeAllViews();
-            this.flContentView.addView(contentView,layoutParams);
+            if(swipeRefreshEnable){
+                addContentView(mSwipeLayout,contentView,layoutParams);
+                this.flContentView.addView(mSwipeLayout);
+            }else{
+                addContentView(flContentView,contentView,layoutParams);
+            }
         }
     }
-
-    public void setCustomRefreshView(View headerView){
+    private void addContentView(ViewGroup viewGroup,View child,ViewGroup.LayoutParams layoutParams){
+        if(layoutParams==null){
+            viewGroup.addView(child);
+        }else{
+            viewGroup.addView(child,layoutParams);
+        }
+    }
+    /**
+     * 设置下拉刷新header视图
+     * @param headerView
+     */
+    private void addHeaderView(View headerView){
         if(headerView!=null){
-            this.headerView=headerView;
             this.flHeaderView.removeAllViews();
             this.flHeaderView.addView(headerView);
         }
@@ -164,7 +188,7 @@ public class PullRefreshView extends ConstraintLayout {
     float x,y;
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if(refreshState==STATE_NONE || isRefreshing()){
+        if(!swipeRefreshEnable && refreshState==STATE_NONE || isRefreshing()){
             switch (ev.getAction()){
                 case MotionEvent.ACTION_DOWN:
                     x=ev.getX();
@@ -202,6 +226,9 @@ public class PullRefreshView extends ConstraintLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+        if(swipeRefreshEnable){
+            return super.onTouchEvent(ev);
+        }
         switch (ev.getAction()){
             case MotionEvent.ACTION_DOWN:
                 break;
@@ -276,8 +303,12 @@ public class PullRefreshView extends ConstraintLayout {
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                showheaderHeight=0;
-                constraintSetHeader(true);
+                if(swipeRefreshEnable){
+                    mSwipeLayout.setRefreshing(false);
+                }else{
+                    showheaderHeight=0;
+                    constraintSetHeader(true);
+                }
                 onCallBack(STATE_NONE);
             }
         },refreshCompletedDelayTime);
@@ -288,20 +319,49 @@ public class PullRefreshView extends ConstraintLayout {
         if(refreshCallBack==null || headerView==null){
             return;
         }
+        String status="";
         switch (refreshState){
             case STATE_NONE:
                 refreshCallBack.onRefreshNone();
+                status="onRefreshNone";
                 break;
             case STATE_PULL_DOWN:
                 refreshCallBack.onPullDown(headerView,showheaderHeight,maxHeaderHeight);
+                status="onPullDown";
                 break;
             case STATE_REFRESHING:
                 refreshCallBack.onRefresh(headerView);
+                status="onRefresh...";
                 break;
             case STATE_COMPLETE:
                 refreshCallBack.onRefreshComplete(headerView);
+                status="onRefreshComplete";
                 break;
         }
+        Log.d(TAG,status);
+    }
+
+
+    private AppBarLayout checkAppbarLayout(View rootView){
+        AppBarLayout appBar=null;
+        if(rootView==null){
+            return null;
+        }
+        if(rootView instanceof AppBarLayout){
+            appBar= (AppBarLayout) rootView;
+        }else if(rootView instanceof ViewGroup){
+            int childCount = ((ViewGroup) rootView).getChildCount();
+            if(childCount>0){
+                for(int i=0;i<childCount;i++){
+                    appBar=checkAppbarLayout(((ViewGroup) rootView).getChildAt(i));
+                    if(appBar!=null){
+                        break;
+                    }
+                }
+            }
+        }
+        return appBar;
+
     }
 
 }

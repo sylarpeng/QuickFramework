@@ -13,10 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.zz.quickframework.MainActivity4"></activity>
+        <activity android:name="com.zz.quickframework.MainActivity5"></activity>
+        <activity android:name="com.zz.quickframework.MainActivity4" />
         <activity android:name="com.zz.quickframework.MainActivity3" />
         <activity android:name="com.zz.quickframework.MainActivity2" />
-        <activity android:name="com.zz.quickframework.MainActivity" >
+        <activity android:name="com.zz.quickframework.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,10 +1,11 @@
 package com.zz.quickframework
 
-import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.zz.libcore.ui.ZBaseFragment
 import com.zz.libcore.widget.pullrefresh.PullRefreshView
 import com.zz.libcore.widget.pullrefresh.RefreshCallBack
+import com.zz.myapplication1.R
 
 /**
  * 项目名称:Rosegal
@@ -13,20 +14,28 @@ import com.zz.libcore.widget.pullrefresh.RefreshCallBack
  * 类描述：带下拉刷新的fragment
  */
 open class RgRefreshFragment :  ZBaseFragment() {
-    var controller:RefreshController?=null;
+    var controller:RefreshController?=null
 
-    override fun initData() {
+    override fun getLayoutView(): View? {
+        var rootView=View.inflate(mContext, R.layout.refresh_rv_content, null)
+        initRefreshView(rootView.findViewById(R.id.refresh_view))
+        return rootView;
+    }
+
+    /**
+     * 初始化PullRefreshView
+     */
+    private fun initRefreshView(pullRefreshView: PullRefreshView?) {
         controller=RefreshController()
-    }
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initRefreshView()
-    }
-    private fun initRefreshView() {
-        var pullRefreshView = getPullRefreshView();
+        pullRefreshView?.run {
+            setSwipeRefreshEnable(true, ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                .setHeaderView(controller?.getCustomRefreshView(mContext))
+                .setContentView(View.inflate(mContext, getLayoutResId(), null))
+                .setRefreshCallBack(controller?.getRefreshCallBack())
+                .create()
+
+        }
         controller?.pullRefreshView=pullRefreshView;
-        pullRefreshView?.setCustomRefreshView(controller?.getCustomRefreshView(mContext))
-        pullRefreshView?.setRefreshCallBack(controller?.getRefreshCallBack())
         controller?.refreshCallBack=object : RefreshCallBack{
             override fun onLoadMoreData() {
                 this@RgRefreshFragment.onLoadMoreData()
@@ -36,8 +45,6 @@ open class RgRefreshFragment :  ZBaseFragment() {
             }
         }
     }
-
-    open fun getPullRefreshView():PullRefreshView?=null
 
     /**
      * 下拉刷新操作

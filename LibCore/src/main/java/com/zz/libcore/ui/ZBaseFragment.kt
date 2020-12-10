@@ -49,9 +49,18 @@ open class ZBaseFragment : Fragment(){
     private fun initMultiStatusView(view: View) {
         if(view!=null && view is MultiStatusView){
             multiStatusView=view
-            multiStatusView!!.removeAllViews()
-            multiStatusView!!.viewHelper=getStatusView()
-            multiStatusView!!.addView(MultiStatusView.VIEW_TYPE_CONTENT,View.inflate(mContext,getLayoutResId(),null))
+            multiStatusView?.run{
+                removeAllViews()
+                viewHelper=getStatusView()
+                var contentView=getLayoutView()
+                if(contentView!=null){
+                    addView(MultiStatusView.VIEW_TYPE_CONTENT,contentView)
+                }else{
+                    addView(MultiStatusView.VIEW_TYPE_CONTENT,View.inflate(mContext,getLayoutResId(),null))
+                }
+
+            }
+
         }
     }
 
@@ -60,9 +69,9 @@ open class ZBaseFragment : Fragment(){
     }
 
     @LayoutRes
-    protected open fun getLayoutResId():Int {
-        return 0
-    }
+    protected open fun getLayoutResId():Int=0
+
+    protected open fun getLayoutView():View?=null
 
     protected fun showContentView(){
         multiStatusView?.showContentView()

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zz.myapplication1.R
 
@@ -15,6 +16,8 @@ import com.zz.myapplication1.R
  * 类描述：
  */
 class Fragment3 : RgRefreshFragment() {
+
+    private var linearLayoutManager:LinearLayoutManager?=null;
 
     override fun getLayoutResId(): Int {
         return R.layout.fragment_base_refresh_list;
@@ -31,18 +34,20 @@ class Fragment3 : RgRefreshFragment() {
         recyclerView?.adapter=getRVAdapter()
     }
 
+
     fun getRVAdapter(): MyAdapter? {
         return MyAdapter();
     }
 
     fun getLayoutManager(): RecyclerView.LayoutManager {
-        return GridLayoutManager(mContext,2)
+        linearLayoutManager=GridLayoutManager(mContext,2)
+        return linearLayoutManager!!
     }
 
     override fun onRefresh() {
-        Log.d("dd","reuqest_start")
+        Log.d("dd", "reuqest_start")
         recyclerView!!.postDelayed({
-            Log.d("dd","reuqest_end")
+            Log.d("dd", "reuqest_end")
             stopRefresh()
         }, 3000)
     }
@@ -50,7 +55,7 @@ class Fragment3 : RgRefreshFragment() {
     inner class MyAdapter : RecyclerView.Adapter<MyHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
             val textView = TextView(mContext)
-            textView.setPadding(0,20,0,20)
+            textView.setPadding(0, 20, 0, 20)
             return MyHolder(textView)
         }
 
@@ -58,7 +63,7 @@ class Fragment3 : RgRefreshFragment() {
             return 150;
         }
 
-        override fun onBindViewHolder(holder:MyHolder, position: Int) {
+        override fun onBindViewHolder(holder: MyHolder, position: Int) {
             holder.tx?.text="text_${position}"
         }
     }

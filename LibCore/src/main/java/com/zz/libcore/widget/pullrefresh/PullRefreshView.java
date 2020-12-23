@@ -7,12 +7,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ScrollView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.transition.TransitionManager;
 
@@ -49,6 +52,10 @@ public class PullRefreshView extends ConstraintLayout {
     private FrameLayout flHeaderView;
     private View headerView;
     private View contentView;
+    /**
+     * 滑动视图，当前支持RecyclerView,NestedScrollView,ScrollView
+     */
+    private View scrollView;
 
     private int speed=3;
     private ConstraintSet constraintSet;
@@ -110,6 +117,7 @@ public class PullRefreshView extends ConstraintLayout {
         this.swipeRefreshEnable = swipeRefreshEnable;
         if(swipeRefreshEnable){
             mSwipeLayout=new SwipeRefreshLayout(context);
+            mSwipeLayout.setColorSchemeColors(colors);
             mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
@@ -147,6 +155,7 @@ public class PullRefreshView extends ConstraintLayout {
         }
         addContentView(contentView,layoutParams);
         appBarLayout=checkAppbarLayout(contentView);
+        scrollView=checkScrollView(contentView);
         if(appBarLayout!=null){
             appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                 @Override
@@ -203,6 +212,10 @@ public class PullRefreshView extends ConstraintLayout {
             }
             return false;
         }else{
+            if(swipeRefreshEnable){
+                mSwipeLayout.setEnabled(isTop());
+            }
+
             return super.onInterceptTouchEvent(ev);
         }
 
@@ -216,12 +229,11 @@ public class PullRefreshView extends ConstraintLayout {
         if(contentView==null){
             return false;
         }
-        if(appBarLayout!=null){
-            return appBarVerticalOffset==0;
+        if(scrollView==null){
+            return appBarVerticalOffset==0 && !contentView.canScrollVertically(-1);
         }else{
-            return !contentView.canScrollVertically(-1);
+            return appBarVerticalOffset==0 && !scrollView.canScrollVertically(-1);
         }
-
     }
 
     @Override
@@ -361,7 +373,27 @@ public class PullRefreshView extends ConstraintLayout {
             }
         }
         return appBar;
+    }
 
+    private View checkScrollView(View rootView){
+        View scrollView=null;
+        if(rootView==null){
+            return null;
+        }
+        if(rootView instanceof RecyclerView || rootView instanceof NestedScrollView || rootView instanceof ScrollView){
+            scrollView=rootView;
+        }else if(rootView instanceof ViewGroup){
+            int childCount = ((ViewGroup) rootView).getChildCount();
+            if(childCount>0){
+                for(int i=0;i<childCount;i++){
+                    scrollView=checkScrollView(((ViewGroup) rootView).getChildAt(i));
+                    if(scrollView!=null){
+                        break;
+                    }
+                }
+            }
+        }
+        return scrollView;
     }
 
 }

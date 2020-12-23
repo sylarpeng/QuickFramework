@@ -2,14 +2,24 @@ package com.zz.quickframework
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.google.gson.Gson
+import com.xujiaji.happybubble.BubbleDialog
+import com.xujiaji.happybubble.BubbleLayout
+import com.zz.libcore.utils.DensityUtil
+import com.zz.libcore.widget.imageSpan.ClickableImageSpan
+import com.zz.libcore.widget.imageSpan.ClickableMovementMethod
 import com.zz.libnetwork.gson.CustomGsonConverterFactory
 import com.zz.libnetwork.params.RequestParams
 import com.zz.myapplication1.R
@@ -33,10 +43,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         tvTips=findViewById<TextView>(R.id.tv_tips)
         findViewById<TextView>(R.id.tv_btn).setOnClickListener(View.OnClickListener {
-            tvTips?.text=null
+            tvTips?.text = null
 //            test11()
 //            testGson();
-            startActivity(Intent(this,MainActivity2::class.java));
+            startActivity(Intent(this, MainActivity2::class.java));
         })
         findViewById<TextView>(R.id.tv_cancel).setOnClickListener(View.OnClickListener {
             test3()
@@ -46,6 +56,30 @@ class MainActivity : AppCompatActivity() {
         viewModel!!.result.observe(this, androidx.lifecycle.Observer {
             printMsg(it.msg!!)
         })
+        initTips()
+    }
+
+    private fun initTips() {
+        var iv_help=findViewById<ImageView>(R.id.iv_help)
+        iv_help.setOnClickListener(View.OnClickListener {
+            showDialog(iv_help);
+        })
+    }
+
+    fun showDialog(view: View){
+        val bl = BubbleLayout(this)
+        bl.shadowColor = Color.parseColor("#26000000")
+        bl.look = BubbleLayout.Look.TOP;
+        bl.lookLength = DensityUtil.dp2px(this, 4)
+        bl.lookWidth =DensityUtil.dp2px(this, 14)
+        bl.bubbleRadius = DensityUtil.dp2px(this, 5)
+
+        BubbleDialog(this)
+            .setBubbleContentView<BubbleDialog>(LayoutInflater.from(this).inflate(R.layout.dialog_view3, null))
+            .setClickedView<BubbleDialog>(view)
+
+            .setBubbleLayout<BubbleDialog>(bl)
+            .show();
     }
 
     override fun attachBaseContext(newBase: Context?) {
@@ -59,10 +93,10 @@ class MainActivity : AppCompatActivity() {
                 return
             }
             applyOverrideConfiguration(configuration)
-            resources.updateConfiguration(configuration,resources.displayMetrics)
+            resources.updateConfiguration(configuration, resources.displayMetrics)
 
 
-        }catch (e:Exception){}
+        }catch (e: Exception){}
     }
 
 
@@ -71,27 +105,27 @@ class MainActivity : AppCompatActivity() {
         try {
             var jsonArray=JSONArray();
             var goods=JSONObject();
-            goods.put("id","1")
-            goods.put("name","test1")
+            goods.put("id", "1")
+            goods.put("name", "test1")
             var goods2=JSONObject();
-            goods2.put("id","")
-            goods2.put("name","test222")
+            goods2.put("id", "")
+            goods2.put("name", "test222")
             jsonArray.put(goods)
             jsonArray.put(goods2)
 
             var json=JSONObject();
-            json.put("gender","")
-            json.put("user_name","test")
-            json.put("sex","")
-            json.put("sex1","")
-            json.put("sex2","")
-            json.put("sex3",jsonArray)
-            json.put("goods",jsonArray)
-            json.put("vip","1")
+            json.put("gender", "")
+            json.put("user_name", "test")
+            json.put("sex", "")
+            json.put("sex1", "")
+            json.put("sex2", "")
+            json.put("sex3", jsonArray)
+            json.put("goods", jsonArray)
+            json.put("vip", "1")
 //            json.put("good","")
-            var stu=CustomGsonConverterFactory.gson.fromJson(json.toString(),Student::class.java)
+            var stu=CustomGsonConverterFactory.gson.fromJson(json.toString(), Student::class.java)
             printMsg(stu.toString())
-        }catch (e :java.lang.Exception){
+        }catch (e: java.lang.Exception){
             e.printStackTrace();
         }
 
@@ -157,7 +191,7 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build();
         val testApi=retrofit.create(TestApi::class.java)
-        testApi.getDatas(1).enqueue(object : Callback<User>{
+        testApi.getDatas(1).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 printMsg("success")
             }
@@ -175,7 +209,7 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build();
         val testApi=retrofit.create(TestApi::class.java)
-        testApi.getDatas2().enqueue(object : Callback<Any>{
+        testApi.getDatas2().enqueue(object : Callback<Any> {
             override fun onResponse(call: Call<Any>, response: Response<Any>) {
                 printMsg("success")
             }
@@ -187,7 +221,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
     private fun test9(){
-        ApiManager.testApi().getDatas(2).enqueue(object : Callback<User>{
+        ApiManager.testApi().getDatas(2).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 printMsg("success")
             }
@@ -202,8 +236,8 @@ class MainActivity : AppCompatActivity() {
     private fun test10(){
         var params:RequestParams= BaseRequest()
         params.isJsonParams=true
-        params.addParam("userId","1234")
-        ApiManager.testApi().getDatas3(params.createRequestBody()).enqueue(object : Callback<User>{
+        params.addParam("userId", "1234")
+        ApiManager.testApi().getDatas3(params.createRequestBody()).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 printMsg("success")
             }
@@ -219,15 +253,15 @@ class MainActivity : AppCompatActivity() {
         viewModel!!.requestData()
 
         var params= RequestParams()
-        params.addParam("app_type",1)
-        params.addParam("version","5.0.0")
-        params.addParam("website","rosegal")
-        params.addParam("lang","en")
-        params.addParam("device_id","1bba7b8629a0546dce091719995658eb0b7e")
-        params.addParam("user_id","11663")
-        ApiManager.msgApi().getMenu(params.createRequestBody()).enqueue(object : Callback<Message>{
+        params.addParam("app_type", 1)
+        params.addParam("version", "5.0.0")
+        params.addParam("website", "rosegal")
+        params.addParam("lang", "en")
+        params.addParam("device_id", "1bba7b8629a0546dce091719995658eb0b7e")
+        params.addParam("user_id", "11663")
+        ApiManager.msgApi().getMenu(params.createRequestBody()).enqueue(object : Callback<Message> {
             override fun onResponse(call: Call<Message>, response: Response<Message>) {
-                var msg=response.body()
+                var msg = response.body()
                 printMsg("success")
             }
 
@@ -267,8 +301,8 @@ class MainActivity : AppCompatActivity() {
         var now=Date(1604565448000);
         var format=SimpleDateFormat("yyyy-MMM-dd HH:mm:ss", Locale.US);
         var format2=SimpleDateFormat("MMM.dd,yyyy 'at' HH:mm:ss", Locale.US);
-        Log.d("dd","time1="+format.format(now))
-        Log.d("dd","time2="+format2.format(now))
+        Log.d("dd", "time1=" + format.format(now))
+        Log.d("dd", "time2=" + format2.format(now))
     }
 
 
@@ -287,7 +321,7 @@ class MainActivity : AppCompatActivity() {
         return "abc123";
     }
 
-    private suspend fun getUser(token:String):String{
+    private suspend fun getUser(token: String):String{
         delay(2000);
         return "user-${token}"
     }
@@ -306,9 +340,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun printMsg(msg:String){
+    private fun printMsg(msg: String){
         val msg1:String = tvTips?.text.toString()+"\n"+msg
-        Log.d("dd",msg1);
+        Log.d("dd", msg1);
         tvTips?.text=msg1
     }
 }

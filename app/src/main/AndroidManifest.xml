@@ -3,7 +3,8 @@
     package="com.zz.myapplication1">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
     <application
         android:name="com.zz.quickframework.MyApplication"
         android:allowBackup="true"

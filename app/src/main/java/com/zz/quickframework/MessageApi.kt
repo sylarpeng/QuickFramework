@@ -21,7 +21,7 @@ interface MessageApi {
     fun getMenu(@Body requestBody: RequestBody) : Call<Message>
 
     @POST("api/letter/menu")
-    fun getMenu1(@Body requestBody: RequestBody) : Deferred<NetResult<List<Message>>>
+    suspend fun getMenu1(@Body requestBody: RequestBody) : NetResult<List<Message>>
 
     @POST("api/letter/menu2")
     fun getMenu2(@Body requestBody: RequestBody) : Deferred<NetResult<List<Message>>>

@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         viewModel=ViewModelProviders.of(this).get(TestViewModel::class.java);
 
         viewModel!!.result.observe(this, androidx.lifecycle.Observer {
-            printMsg(it.msg!!)
+            printMsg(it.msg)
         })
         initTips()
     }
@@ -261,7 +261,7 @@ class MainActivity : AppCompatActivity() {
         params.addParam("user_id", "11663")
         ApiManager.msgApi().getMenu(params.createRequestBody()).enqueue(object : Callback<Message> {
             override fun onResponse(call: Call<Message>, response: Response<Message>) {
-                var msg = response.body()
+//                var msg = response.body()
                 printMsg("success")
             }
 
@@ -275,7 +275,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun test12(){
         try {
-            var gson: Gson = Gson()
+//            var gson: Gson = Gson()
 //            var obj:JSONObject= JSONObject();
 //            obj.put("userId","123")
 //            obj.put("title","hahaword")

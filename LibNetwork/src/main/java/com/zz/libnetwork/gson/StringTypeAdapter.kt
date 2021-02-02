@@ -19,14 +19,14 @@ class StringTypeAdapter : JsonDeserializer<String> {
         }
         return try {
             when {
-                json!!.isJsonArray -> {
+                json.isJsonArray -> {
                     json.asJsonArray.toString()
                 }
-                json!!.isJsonObject -> {
+                json.isJsonObject -> {
                     json.asJsonObject.toString()
                 }
                 else -> {
-                    json!!.asString
+                    json.asString
                 }
             }
 

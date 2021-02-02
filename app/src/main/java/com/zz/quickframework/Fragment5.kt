@@ -1,13 +1,12 @@
 package com.zz.quickframework
 
-import android.transition.Transition
 import android.view.View
 import android.widget.SeekBar
-import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import com.zz.libcore.ui.ZBaseFragment
 import com.zz.myapplication1.R
+import com.zz.myapplication1.databinding.ActivityMain5Binding
 
 /**
  * 项目名称:Rosegal
@@ -15,18 +14,20 @@ import com.zz.myapplication1.R
  * 创建时间:2020/12/9 17:36
  * 类描述：
  */
-class Fragment5 : ZBaseFragment() {
+class Fragment5 : ZBaseFragment(R.layout.activity_main5) {
     var start:Boolean =true;
     var motionLayout:MotionLayout?=null;
-    var seekBar:SeekBar?=null;
-    override fun getLayoutResId(): Int {
-        return R.layout.activity_main5
+    var seekBar:SeekBar?=null
+    private lateinit var viewBinding5: ActivityMain5Binding
+
+    override fun bindView(contentView: View) {
+        viewBinding5=ActivityMain5Binding.bind(contentView);
     }
 
     override fun initView(view: View) {
-        motionLayout=view.findViewById(R.id.ml_root)
-        seekBar=view.findViewById(R.id.seekbar)
-        view.findViewById<TextView>(R.id.actor).setOnClickListener(View.OnClickListener {
+        motionLayout=viewBinding5.mlRoot
+        seekBar=viewBinding5.seekbar
+        viewBinding5.actor.setOnClickListener(View.OnClickListener {
             if(start){
                 motionLayout?.transitionToEnd()
             }else{

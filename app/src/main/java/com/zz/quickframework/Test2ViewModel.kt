@@ -31,7 +31,7 @@ class Test2ViewModel : BaseViewModel() {
                 getUser();
             }
             Log.d("dd","after...")
-            var ss=token.await()+user.await()
+//            var ss=token.await()+user.await()
             Log.d("dd","finished...")
             messageResult.postValue(result)
         }

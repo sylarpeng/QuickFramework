@@ -13,9 +13,8 @@ import com.zz.myapplication1.R
  * 创建时间:2020/11/27 16:52
  * 类描述：带下拉刷新的fragment
  */
-open class RgRefreshFragment :  ZBaseFragment() {
+open class RgRefreshFragment(layResId:Int) :  ZBaseFragment(layResId) {
     var controller:RefreshController?=null
-
     override fun getLayoutView(): View? {
         var rootView=View.inflate(mContext, R.layout.refresh_rv_content, null)
         initRefreshView(rootView.findViewById(R.id.refresh_view))
@@ -27,10 +26,11 @@ open class RgRefreshFragment :  ZBaseFragment() {
      */
     private fun initRefreshView(pullRefreshView: PullRefreshView?) {
         controller=RefreshController()
+        this.bindingView=View.inflate(mContext, contentLayoutResId, null)
         pullRefreshView?.run {
             setSwipeRefreshEnable(true, ContextCompat.getColor(context, R.color.colorPrimaryDark))
                 .setHeaderView(controller?.getCustomRefreshView(mContext))
-                .setContentView(View.inflate(mContext, getLayoutResId(), null))
+                .setContentView(bindingView)
                 .setRefreshCallBack(controller?.getRefreshCallBack())
                 .create()
 

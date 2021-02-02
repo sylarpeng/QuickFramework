@@ -36,15 +36,15 @@ class MultiStatusView : FrameLayout{
     var errorView:View?=null
 
     constructor(context: Context):super(context){
-        init(context)
+//        this(context)
     }
     constructor(context: Context,attributeSet: AttributeSet):super(context,attributeSet){
-        init(context)
+//        init(context)
     }
 
-    private fun init(context: Context) {
-
-    }
+//    private fun init(context: Context) {
+//
+//    }
 
     fun addView(@ViewType viewType:Int, view: View?){
         if(view==null){

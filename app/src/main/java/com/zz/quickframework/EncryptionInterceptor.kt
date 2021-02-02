@@ -16,7 +16,7 @@ class EncryptionInterceptor:Interceptor  {
         var request = chain.request()
         if(isMessageHost(request.url().host())){
             var newBuilder=addEncryptionHeader(request,request.headers())
-            request = newBuilder.post(request.body()).build()
+            request = newBuilder.post(request.body()!!).build()
         }
         return chain.proceed(request)
 

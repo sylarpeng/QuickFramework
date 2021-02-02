@@ -27,7 +27,7 @@ class MessageRespository : BaseRepository() {
             params.addParam("lang", "en")
             params.addParam("device_id", "1bba7b8629a0546dce091719995658eb0b7e")
             params.addParam("user_id", "11663")
-            ApiManager.msgApi().getMenu1(params.createRequestBody()).await()
+            ApiManager.msgApi().getMenu1(params.createRequestBody())
         }
     }
 

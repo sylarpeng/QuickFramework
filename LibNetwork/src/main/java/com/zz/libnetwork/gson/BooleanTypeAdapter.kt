@@ -15,7 +15,9 @@ import java.lang.reflect.Type
 class BooleanTypeAdapter : JsonDeserializer<Boolean> {
     override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Boolean {
         return try {
-            json!!.asString.toLowerCase() == "1" || json!!.asString.toLowerCase() == "true"
+            json?.let {
+                it.asString.toLowerCase() == "1" || it.asString.toLowerCase() == "true"
+            }!!
         } catch (e: Exception) {
             false
         }

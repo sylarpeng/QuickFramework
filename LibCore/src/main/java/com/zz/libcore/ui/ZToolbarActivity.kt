@@ -11,6 +11,7 @@ import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuItemCompat
+import androidx.viewbinding.ViewBinding
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.LayoutParams.*
 import com.zz.libcore.R
@@ -24,13 +25,13 @@ import java.lang.reflect.Field
  * 类描述：帶toolbar activity
  * 支持设置菜单角标
  */
-open class ZToolbarActivity : ZBaseActivity(), Toolbar.OnMenuItemClickListener {
+open class ZToolbarActivity: ZBaseActivity(), Toolbar.OnMenuItemClickListener {
     var toolbar:Toolbar?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var fragment=getFragment()
         if(fragment!=null){
-            supportFragmentManager.beginTransaction().replace(R.id.fl_root_container,fragment!!,"").commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fl_root_container,fragment,"").commit()
         }
         initToolbar()
         initView()

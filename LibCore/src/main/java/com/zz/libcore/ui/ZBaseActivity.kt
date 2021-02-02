@@ -11,13 +11,14 @@ import androidx.fragment.app.Fragment
 import com.zz.libcore.R
 import com.zz.libcore.utils.StatusBarUtil
 
+
 /**
  * 项目名称:Rosegal
  * 创建人：Created by  pzj
  * 创建时间:2020/11/18 18:15
  * 类描述：基类Activity
  */
-open class ZBaseActivity : AppCompatActivity() {
+open class ZBaseActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setRootView()
@@ -34,10 +35,9 @@ open class ZBaseActivity : AppCompatActivity() {
             setContentView(R.layout.activity_base)
             var fragment=getFragment()
             if(fragment!=null){
-                supportFragmentManager.beginTransaction().replace(R.id.fl_root_container,fragment!!,"").commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fl_root_container,fragment,"").commit()
             }
         }
-
     }
     /**
      * 设置沉浸式状态栏

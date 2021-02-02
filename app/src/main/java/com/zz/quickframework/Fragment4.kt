@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.webp.decoder.WebpDrawable
 import com.bumptech.glide.integration.webp.decoder.WebpDrawableTransformation
@@ -13,12 +14,13 @@ import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.zz.libcore.databinding.FragmentBaseBinding
 import com.zz.libcore.utils.DensityUtil
 import com.zz.libcore.widget.glide.GlideBlurTransformation
 import com.zz.libcore.widget.glide.GlideCircleTransform
 import com.zz.libcore.widget.image.ZImageView
-import com.zz.libcore.widget.pullrefresh.PullRefreshView
 import com.zz.myapplication1.R
+import com.zz.myapplication1.databinding.ActivityMain4Binding
 
 
 /**
@@ -27,17 +29,19 @@ import com.zz.myapplication1.R
  * 创建时间:2020/11/19 18:44
  * 类描述：
  */
-class Fragment4 : RgRefreshFragment() {
-    var sv: View?=null
-    override fun getLayoutResId(): Int {
-        return R.layout.activity_main4
-    }
+class Fragment4 : RgRefreshFragment(R.layout.activity_main4) {
 
+    private lateinit var viewBinding4:ActivityMain4Binding
+    var sv: View?=null
+
+    override fun bindView(contentView: View) {
+        viewBinding4=ActivityMain4Binding.bind(contentView);
+    }
     override fun initView(view: View) {
-        sv=view.findViewById(R.id.sv)
+        sv=viewBinding4.sv
         showLoadingView()
 
-        var empty=view.findViewById<TextView>(R.id.tv_empty)
+        var empty=viewBinding4.tvEmpty
         empty.setOnClickListener(View.OnClickListener {
             showEmptyView()
             reset(empty)
@@ -61,7 +65,7 @@ class Fragment4 : RgRefreshFragment() {
 
     private fun initImage(view: View) {
         var url="https://uidesign.rglcdn.com/RG/image/4152/en_1920x600.jpg?impolicy=high";
-        var gif="https://uidesign.rglcdn.com/RG/image/4887/APP-logo.gif";
+//        var gif="https://uidesign.rglcdn.com/RG/image/4887/APP-logo.gif";
 
         var iv: ZImageView =view.findViewById(R.id.iv)
         var iv1: ZImageView =view.findViewById(R.id.iv1)

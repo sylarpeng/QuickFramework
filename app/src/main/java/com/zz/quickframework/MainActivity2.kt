@@ -13,21 +13,28 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.ViewModelProviders
+import androidx.viewbinding.ViewBinding
 import com.permissionx.guolindev.PermissionX
+import com.zz.libcore.ui.ZBaseActivity
 import com.zz.libcore.utils.DensityUtil
 import com.zz.myapplication1.R
+import com.zz.myapplication1.databinding.ActivityMain2Binding
 
 class MainActivity2 : AppCompatActivity() {
     var tvTips:TextView?=null;
     var tvClick:TextView?=null;
     var tvMain5:TextView?=null;
     private var viewModel:Test2ViewModel?=null
+    private lateinit var binding: ActivityMain2Binding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main2)
+        binding=ActivityMain2Binding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.tips.text="bbb"
         init()
         initLocation();
     }
+
 
     private var xLocation=0
     private var yLocation=0

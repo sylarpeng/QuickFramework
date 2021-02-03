@@ -19,3 +19,35 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class kotlinx.coroutines.android.** {*;}
+-keepclassmembernames class kotlinx.** {
+    volatile <fields>;
+}
+# OkHttp3
+-dontwarn okhttp3.logging.**
+-keep class okhttp3.internal.**{*;}
+-keep class okhttp3.**{*;}
+-dontwarn okio.**
+-keep class okio.** {*;}
+# Retrofit
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+
+#Glide
+-dontwarn com.bumptech.glide.**
+-keep class com.bumptech.glide.**{*;}
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.AppGlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+# Gson
+#//不混淆某个类
+#-keep public class name.huihui.example.Test { *; }
+#不混淆某个类的子类
+-keep public class * extends com.zz.quickframework.beans.BaseBean { *; }

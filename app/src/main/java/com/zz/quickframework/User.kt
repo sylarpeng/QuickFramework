@@ -8,5 +8,12 @@ package com.zz.quickframework
  */
 class User{
     val userId:String?=null
-    val title:String?=null
+    var title:String?=null
+    get() {
+        return field+"111"
+    }
+    set(value) {
+        field="aaa"+value
+    }
+
 }

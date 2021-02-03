@@ -1,12 +1,14 @@
 package com.zz.quickframework
 
+import com.zz.quickframework.beans.BaseBean
+
 /**
  * 项目名称:Rosegal
  * 创建人：Created by  pzj
  * 创建时间:2020/11/6 10:45
  * 类描述：
  */
-class Message {
+class Message : BaseBean() {
     public val img: String? = null
     public val is_community: String? = null
     public val menu_id: String? = null

@@ -22,7 +22,7 @@ class Test2ViewModel : BaseViewModel() {
     fun requestData(context:FragmentActivity){
         launchUI(context) {
             var result= messageRespository.getMsgDatas(1000)
-//            var result= messageRespository.getMsgDatas2(2000)
+//            var result1= messageRespository.getMsgDatas2(1000)
 //            var result2= messageRespository.getMsgDatas2(2000)
 //            messageResult.postValue(result)
 //            var token=async {

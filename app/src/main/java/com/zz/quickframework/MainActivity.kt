@@ -20,8 +20,8 @@ import com.xujiaji.happybubble.BubbleLayout
 import com.zz.libcore.utils.DensityUtil
 import com.zz.libcore.widget.imageSpan.ClickableImageSpan
 import com.zz.libcore.widget.imageSpan.ClickableMovementMethod
-import com.zz.libnetwork.gson.CustomGsonConverterFactory
-import com.zz.libnetwork.params.RequestParams
+import com.zz.libcore.network.gson.CustomGsonConverterFactory
+import com.zz.libcore.network.params.RequestParams
 import com.zz.myapplication1.R
 import kotlinx.coroutines.*
 import org.json.JSONArray

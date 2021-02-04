@@ -1,7 +1,7 @@
 package com.zz.quickframework.respository
 
 import android.util.Log
-import com.zz.libnetwork.params.RequestParams
+import com.zz.libcore.network.params.RequestParams
 import com.zz.quickframework.ApiManager
 import com.zz.quickframework.Message
 import com.zz.quickframework.NetResult

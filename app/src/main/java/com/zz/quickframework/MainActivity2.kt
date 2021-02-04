@@ -26,6 +26,7 @@ class MainActivity2 : AppCompatActivity() {
     var tvMain5:TextView?=null;
     private var viewModel:Test2ViewModel?=null
     private lateinit var binding: ActivityMain2Binding
+    var flag:Boolean=false;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityMain2Binding.inflate(layoutInflater)
@@ -33,6 +34,17 @@ class MainActivity2 : AppCompatActivity() {
         binding.tips.text="bbb"
         init()
         initLocation();
+
+        binding.badge.show("46")
+        binding.badge1.show()
+        binding.badge2.setOnClickListener{
+            if(flag){
+                binding.badge2.show("67")
+            }else{
+                binding.badge2.hide()
+            }
+            flag=!flag
+        }
     }
 
 

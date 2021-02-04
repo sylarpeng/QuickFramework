@@ -1,11 +1,8 @@
 package com.zz.quickframework
 
-import com.zz.libnetwork.gson.CustomGsonConverterFactory
-import com.zz.libnetwork.net.OkhttpManager
-import com.zz.libnetwork.net.RetrofitClient
-import okhttp3.OkHttpClient
-import retrofit2.Converter
-import retrofit2.Retrofit
+import com.zz.libcore.network.gson.CustomGsonConverterFactory
+import com.zz.libcore.network.net.OkhttpManager
+import com.zz.libcore.network.net.RetrofitClient
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -20,7 +17,7 @@ class ApiManager {
         var host="https://jsonplaceholder.typicode.com/";
         var msgHost="http://www.uos.com.develop.php7.egomsl.com"
 
-        var okHttpClient=OkhttpManager.get().Builder()
+        var okHttpClient= OkhttpManager.get().Builder()
             .withContext(MyApplication.getContext())
             .connectTimeOut(60)
             .readTimeOut(60)

@@ -1,23 +1,8 @@
 package com.zz.quickframework
 
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
-import by.kirich1409.viewbindingdelegate.viewBinding
-import com.bumptech.glide.Glide
-import com.bumptech.glide.integration.webp.decoder.WebpDrawable
-import com.bumptech.glide.integration.webp.decoder.WebpDrawableTransformation
-import com.bumptech.glide.load.MultiTransformation
-import com.bumptech.glide.load.Transformation
-import com.bumptech.glide.load.resource.bitmap.CenterInside
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
-import com.zz.libcore.databinding.FragmentBaseBinding
 import com.zz.libcore.utils.DensityUtil
-import com.zz.libcore.widget.glide.GlideBlurTransformation
-import com.zz.libcore.widget.glide.GlideCircleTransform
 import com.zz.libcore.widget.image.ZImageView
 import com.zz.myapplication1.R
 import com.zz.myapplication1.databinding.ActivityMain4Binding
@@ -96,32 +81,32 @@ class Fragment4 : RgRefreshFragment(R.layout.activity_main4) {
 
 
     }
-
-    private fun loadRoundImage(imageView: ImageView,url:Any,radius:Int){
-        loadImage(imageView,url,RoundedCorners(radius))
-    }
-
-    private fun loadCircleImage(imageView: ImageView,url:Any){
-        loadImage(imageView,url,GlideCircleTransform(1f, Color.RED))
-    }
-
-    private fun loadBlurImage(imageView: ImageView,url:Any){
-        loadImage(imageView,url,GlideBlurTransformation())
-    }
-
-    private fun loadImage(imageView: ImageView,url:Any,transformation:Transformation<Bitmap>?){
-        var requestBuilder=Glide.with(imageView.context).asDrawable().load(url)
-        var options=RequestOptions()
-        var multiplatform = if(transformation==null){
-            MultiTransformation(CenterInside())
-        }else{
-            MultiTransformation(transformation,CenterInside())
-        }
-        options.optionalTransform(multiplatform)
-        options.optionalTransform(WebpDrawable::class.java, WebpDrawableTransformation(multiplatform))
-        requestBuilder.apply(options).into(imageView)
-
-    }
+//
+//    private fun loadRoundImage(imageView: ImageView,url:Any,radius:Int){
+//        loadImage(imageView,url,RoundedCorners(radius))
+//    }
+//
+//    private fun loadCircleImage(imageView: ImageView,url:Any){
+//        loadImage(imageView,url,GlideCircleTransform(1f, Color.RED))
+//    }
+//
+//    private fun loadBlurImage(imageView: ImageView,url:Any){
+//        loadImage(imageView,url,GlideBlurTransformation())
+//    }
+//
+//    private fun loadImage(imageView: ImageView,url:Any,transformation:Transformation<Bitmap>?){
+//        var requestBuilder=Glide.with(imageView.context).asDrawable().load(url)
+//        var options=RequestOptions()
+//        var multiplatform = if(transformation==null){
+//            MultiTransformation(CenterInside())
+//        }else{
+//            MultiTransformation(transformation,CenterInside())
+//        }
+//        options.optionalTransform(multiplatform)
+//        options.optionalTransform(WebpDrawable::class.java, WebpDrawableTransformation(multiplatform))
+//        requestBuilder.apply(options).into(imageView)
+//
+//    }
 
     fun reset(view: View){
         view.postDelayed(Runnable {

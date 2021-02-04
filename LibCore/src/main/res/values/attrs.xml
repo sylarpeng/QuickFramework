@@ -16,4 +16,11 @@
         <attr name="isBlur" format="boolean"></attr>
         <attr name="rotationAngle" format="integer"></attr>
     </declare-styleable>
+
+    <declare-styleable name="BadgeText">
+        <attr name="badgeBgColor" format="color"></attr>
+        <attr name="badgeTxSize" format="dimension"></attr>
+        <attr name="badgeTxColor" format="color"></attr>
+        <attr name="badgeRadius" format="dimension"></attr>
+    </declare-styleable>
 </resources>

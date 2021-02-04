@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zz.libnetwork.params.RequestParams
+import com.zz.libcore.network.params.RequestParams
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback

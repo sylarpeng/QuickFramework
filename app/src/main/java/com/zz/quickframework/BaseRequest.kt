@@ -1,6 +1,6 @@
 package com.zz.quickframework
 
-import com.zz.libnetwork.params.RequestParams
+import com.zz.libcore.network.params.RequestParams
 
 /**
  * 项目名称:Rosegal

@@ -63,6 +63,42 @@
         tools:text="tips"
         android:gravity="center"
         />
+    <com.zz.libcore.widget.BadgeTextView
+        android:id="@+id/badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="abc"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:background="#eeeeee"
+        android:gravity="center"
+        />
+    <com.zz.libcore.widget.BadgeTextView
+        android:id="@+id/badge1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="abc"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:background="#eeeeee"
+        android:gravity="center"
+        app:badgeRadius="4dp"
+        />
+    <com.zz.libcore.widget.BadgeTextView
+        android:id="@+id/badge2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="abc"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:background="#eeeeee"
+        android:gravity="center"
+        app:badgeBgColor="@color/black"
+        app:badgeTxColor="@color/red"
+        app:badgeRadius="8dp"
+        app:badgeTxSize="11sp"
+
+        />
 
 </LinearLayout>
 

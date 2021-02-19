@@ -9,7 +9,7 @@ import java.lang.Exception
  * 创建时间:2020/11/17 17:17
  * 类描述：
  */
- class NetResult<T> constructor() : BaseBean() {
+ class NetResult<T>: BaseBean() {
     var statusCode:Int=0
     var msg:String=""
     var data:T?=null

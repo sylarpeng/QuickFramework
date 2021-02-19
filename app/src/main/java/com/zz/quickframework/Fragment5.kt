@@ -14,20 +14,20 @@ import com.zz.myapplication1.databinding.ActivityMain5Binding
  * 创建时间:2020/12/9 17:36
  * 类描述：
  */
-class Fragment5 : ZBaseFragment(R.layout.activity_main5) {
+class Fragment5 : RGFragment<ActivityMain5Binding>(R.layout.activity_main5) {
     var start:Boolean =true;
     var motionLayout:MotionLayout?=null;
     var seekBar:SeekBar?=null
-    private lateinit var viewBinding5: ActivityMain5Binding
 
-    override fun bindView(contentView: View) {
-        viewBinding5=ActivityMain5Binding.bind(contentView);
+
+    override fun bindView(contentView: View): ActivityMain5Binding? {
+        return ActivityMain5Binding.bind(contentView)
     }
 
     override fun initView(view: View) {
-        motionLayout=viewBinding5.mlRoot
-        seekBar=viewBinding5.seekbar
-        viewBinding5.actor.setOnClickListener(View.OnClickListener {
+        motionLayout=bind.mlRoot
+        seekBar=bind.seekbar
+        bind.actor.setOnClickListener(View.OnClickListener {
             if(start){
                 motionLayout?.transitionToEnd()
             }else{

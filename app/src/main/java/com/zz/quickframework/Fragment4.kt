@@ -14,19 +14,18 @@ import com.zz.myapplication1.databinding.ActivityMain4Binding
  * 创建时间:2020/11/19 18:44
  * 类描述：
  */
-class Fragment4 : RgRefreshFragment(R.layout.activity_main4) {
+class Fragment4 : RgRefreshFragment<ActivityMain4Binding>(R.layout.activity_main4) {
 
-    private lateinit var viewBinding4:ActivityMain4Binding
     var sv: View?=null
 
-    override fun bindView(contentView: View) {
-        viewBinding4=ActivityMain4Binding.bind(contentView);
+    override fun bindView(contentView: View): ActivityMain4Binding? {
+        return ActivityMain4Binding.bind(contentView)
     }
     override fun initView(view: View) {
-        sv=viewBinding4.sv
+        sv=bind.sv
         showLoadingView()
 
-        var empty=viewBinding4.tvEmpty
+        var empty=bind.tvEmpty
         empty.setOnClickListener(View.OnClickListener {
             showEmptyView()
             reset(empty)

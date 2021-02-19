@@ -1,3 +1,4 @@
-include ':LibCore'
 include ':app'
+include ':LibCore'
+project(':LibCore').projectDir = new File(settingsDir,"../libSdk/LibCore")
 rootProject.name = "QuickFramework"

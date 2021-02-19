@@ -5,7 +5,6 @@ ext{
             "retrofit2"                     : "com.squareup.retrofit2:retrofit:$retrofit2_version",
             "retrofit2-converter"           : "com.squareup.retrofit2:converter-gson:$retrofit2_version",
             "retrofit2-kotlin"           : "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2",
-            "PersistentCookieJar"           : "com.github.franmontiel:PersistentCookieJar:v1.0.0",
             "okio"                          : "com.squareup.okio:okio:2.9.0"
     ]
 }

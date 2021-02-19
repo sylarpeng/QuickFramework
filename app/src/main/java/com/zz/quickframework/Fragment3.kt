@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zz.myapplication1.R
+import com.zz.myapplication1.databinding.FragmentBaseRefreshListBinding
 
 /**
  * 项目名称:Rosegal
@@ -15,7 +16,7 @@ import com.zz.myapplication1.R
  * 创建时间:2020/11/19 18:44
  * 类描述：
  */
-class Fragment3 : RgRefreshFragment(R.layout.fragment_base_refresh_list) {
+class Fragment3 : RgRefreshFragment<FragmentBaseRefreshListBinding>(R.layout.fragment_base_refresh_list) {
 
     private var linearLayoutManager:LinearLayoutManager?=null;
 
